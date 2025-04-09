@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartRent – Simple Rental Finder</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f1f1f1;
+      color: #333;
+    }
+    header {
+      background-color: #2e86de;
+      padding: 15px 20px;
+      color: white;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #1e3799;
+      color: white;
+    }
+    nav .logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    nav .menu {
+      display: flex;
+      gap: 15px;
+    }
+    nav .menu a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .container {
+      padding: 20px;
+    }
+    .location-select {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    select, button {
+      padding: 10px;
+      font-size: 16px;
+      width: 100%;
+      max-width: 300px;
+    }
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .filters button {
+      padding: 8px 15px;
+      border: none;
+      background-color: #2e86de;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .filters button.active {
+      background-color: #145bbd;
+    }
+    .rental-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+    }
+    .rental-card {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .rental-card h3 {
+      margin: 0 0 5px;
+      color: #2e86de;
+    }
+    .rental-card p {
+      margin: 0;
+      color: #555;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #2e86de;
+      color: white;
+      margin-top: 40px;
+    }
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .filters {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🏡 SmartRent – Rental Made Simple</h1>
+  </header>
+
+  <nav>
+    <div class="logo">SmartRent</div>
+    <div class="menu">
+      <a href="#">Home</a>
+      <a href="#">Listings</a>
+      <a href="#">Contact</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="location-select">
+      <label for="citySelect">Select or Auto-Detect Your City</label>
+      <select id="citySelect" onchange="filterRentals()">
+        <option value="">Select City</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Chennai">Chennai</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Anantapur">Anantapur</option>
+      </select>
+      <button onclick="getUserLocation()">📍 Use My Location</button>
+    </div>
+
+    <div class="filters">
+      <button onclick="setType('All')" class="active">All</button>
+      <button onclick="setType('Home')">Home</button>
+      <button onclick="setType('Room')">Room</button>
+      <button onclick="setType('PG')">PG</button>
+      <button onclick="setType('Shop')">Shop</button>
+      <button onclick="setType('Land')">Land</button>
+      <button onclick="setType('Office')">Office</button>
+    </div>
+
+    <div class="rental-list" id="rentalList">
+      <!-- Rentals will go here -->
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 SmartRent | All rights reserved
+  </footer>
+
+  <script>
+    const rentals = [
+      { type: "Home", price: "₹5,000", city: "Hyderabad", area: "KPHB" },
+      { type: "Room", price: "₹2,000", city: "Hyderabad", area: "Ameerpet" },
+      { type: "PG", price: "₹3,000", city: "Chennai", area: "T Nagar" },
+      { type: "Home", price: "₹4,000", city: "Chennai", area: "Velachery" },
+      { type: "Shop", price: "₹7,000", city: "Bangalore", area: "Whitefield" },
+      { type: "Room", price: "₹2,500", city: "Mumbai", area: "Andheri" },
+      { type: "Land", price: "₹10,000", city: "Hyderabad", area: "Shamshabad" },
+      { type: "Office", price: "₹12,000", city: "Bangalore", area: "Indiranagar" },
+      { type: "Office", price: "₹12,000", city: "Anantapur", area: "Sai Nagar" },
+      { type: "Office", price: "₹9,000", city: "Anantapur", area: "Ram Nagar" },
+      { type: "Office", price: "₹5,000", city: "Anantapur", area: "Karim Nagar" },
+    ];
+  
+    let selectedType = "All";
+  
+    function displayRentals(city) {
+      const list = document.getElementById("rentalList");
+      list.innerHTML = "";
+  
+      const filtered = rentals.filter(r =>
+        r.city.toLowerCase() === city.toLowerCase() &&
+        (selectedType === "All" || r.type === selectedType)
+      );
+  
+      if (filtered.length === 0) {
+        list.innerHTML = "<p>No rentals found for selected filters.</p>";
+        return;
+      }
+  
+      filtered.forEach(r => {
+        const card = document.createElement("div");
+        card.className = "rental-card";
+        card.innerHTML = `<h3>${r.type} – ${r.price}</h3><p>${r.area}, ${r.city}</p>`;
+        list.appendChild(card);
+      });
+    }
+  
+    function filterRentals() {
+      const selectedCity = document.getElementById("citySelect").value;
+      if (selectedCity) displayRentals(selectedCity);
+    }
+  
+    function setType(type) {
+      selectedType = type;
+      document.querySelectorAll(".filters button").forEach(btn => {
+        btn.classList.toggle("active", btn.innerText === type || (type === "All" && btn.innerText === "All"));
+      });
+      filterRentals();
+    }
+  
+    async function getUserLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async position => {
+          const { latitude, longitude } = position.coords;
+          const city = await getCityFromCoords(latitude, longitude);
+          if (city) {
+            console.log("Detected city:", city); // 👈 Logs the detected city
+            document.getElementById("citySelect").value = city;
+            displayRentals(city);
+          } else {
+            alert("Couldn't detect your city. Please select manually.");
+          }
+        });
+      } else {
+        alert("Geolocation not supported.");
+      }
+    }
+  
+    async function getCityFromCoords(lat, lon) {
+        try {
+          const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
+          const data = await res.json();
+          console.log("Geolocation API response:", data); // Debugging line
+      
+          const knownCities = rentals.map(r => r.city.toLowerCase());
+          
+          // Try multiple fields from API response
+          let detected = data.city || data.locality || data.principalSubdivision || "";
+          detected = detected.charAt(0).toUpperCase() + detected.slice(1).toLowerCase();
+      
+          if (knownCities.includes(detected.toLowerCase())) {
+            return detected;
+          }
+      
+          console.warn("Detected city not in rental list:", detected);
+          return "";
+        } catch (err) {
+          console.error("Geolocation failed", err);
+          return "";
+        }
+      }
+        </script>
+  
+</body>
+</html>
