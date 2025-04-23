@@ -3,54 +3,106 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Toletu Coming Soon</title>
+  <title>Toletu - Coming Soon</title>
+
+  <!-- Favicon (Logo on browser tab) -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+  <!-- Meta for SEO -->
+  <meta name="description" content="Toletu.com - A new platform to post and find rental ads in your local area. Launching soon!" />
+  <meta name="keywords" content="rental, housing, ads, homes, PG, toletu, local rentals, room rentals" />
+  <meta name="author" content="Toletu Team" />
+  <meta property="og:title" content="Toletu - Rentals Made Simple" />
+  <meta property="og:description" content="Launching in 30 days! A modern local rentals platform for homes, PGs, and more." />
+  <meta property="og:image" content="favicon.ico" />
+  <meta property="og:url" content="https://www.toletu.com" />
+  <meta name="robots" content="index, follow" />
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
+      padding: 0;
       height: 100vh;
-      background: url("your-background.gif") no-repeat center center fixed;
+      background: url("background.gif") no-repeat center center fixed;
       background-size: cover;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: white;
+      text-align: center;
     }
+
+    #logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    #lottie {
+      width: 250px;
+      height: 250px;
+      position: absolute;
+      top: 15%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
     #timer {
       font-size: 2rem;
-      margin-top: 20px;
-      position: relative;
-      z-index: 1;
-    }
-    #lottie {
-      width: 300px;
-      height: 300px;
-      position: absolute;
-      top: 20%;
+      margin-top: 280px;
       z-index: 2;
-      pointer-events: none;
+      font-weight: bold;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 768px) {
+      #timer {
+        font-size: 1.5rem;
+        margin-top: 260px;
+      }
+
+      #lottie {
+        width: 200px;
+        height: 200px;
+      }
+
+      #logo {
+        width: 80px;
+      }
     }
   </style>
 </head>
 <body>
 
+  <!-- Logo -->
+  <img id="logo" src="favicon.ico" alt="Toletu Logo" />
+
+  <!-- Lottie animation -->
   <div id="lottie"></div>
+
+  <!-- Countdown Timer -->
   <div id="timer">Loading timer...</div>
 
   <!-- Lottie player -->
-  <script src="cat typing.json"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
   <script>
     // Load Lottie animation
-    const animation = lottie.loadAnimation({
+    lottie.loadAnimation({
       container: document.getElementById('lottie'),
       renderer: 'svg',
       loop: true,
       autoplay: true,
-      path: 'animation.json' // Replace with your animation file path
+      path: 'animation.json'
     });
 
-    // Timer countdown to 30 days from now
+    // Timer countdown logic
     const timerElement = document.getElementById("timer");
     const launchDate = new Date();
     launchDate.setDate(launchDate.getDate() + 30);
@@ -60,7 +112,7 @@
       const diff = launchDate - now;
 
       if (diff <= 0) {
-        timerElement.innerHTML = "We are live now!";
+        timerElement.innerHTML = "🎉 We are live now!";
         return;
       }
 
@@ -75,6 +127,5 @@
     updateTimer();
     setInterval(updateTimer, 1000);
   </script>
-
 </body>
 </html>
