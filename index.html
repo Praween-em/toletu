@@ -18,7 +18,7 @@
   <meta property="og:url" content="https://www.toletu.com" />
   <meta name="robots" content="index, follow" />
 
-  <!-- Lottie Script -->
+  <!-- Lottie Animation Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
 
   <style>
@@ -30,14 +30,13 @@
       margin: 0;
       padding: 0;
       height: 100vh;
-      background: url("background.gif") no-repeat center center fixed;
-      background-size: cover;
+      background: linear-gradient(135deg, #0d47a1, #ffffff);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
+      color: #ffffff;
       text-align: center;
       overflow: hidden;
     }
@@ -61,16 +60,22 @@
       font-size: 2rem;
       margin-top: 280px;
       z-index: 2;
-      font-weight: bold;
-      background-color: rgba(0, 0, 0, 0.4);
-      padding: 20px;
-      border-radius: 12px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 20px 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease-in-out;
     }
 
     @media (max-width: 768px) {
       #timer {
         font-size: 1.5rem;
         margin-top: 260px;
+        padding: 16px 24px;
       }
 
       #lottie {
@@ -89,23 +94,24 @@
   <!-- Logo -->
   <img id="logo" src="toletu.com_logo-removebg-preview.png" alt="Toletu Logo" />
 
-  <!-- Lottie Animation Container -->
+  <!-- Lottie Animation -->
   <div id="lottie"></div>
 
   <!-- Countdown Timer -->
   <div id="timer">Loading timer...</div>
 
   <script>
-    // Load Lottie animation
+    // Lottie animation loader
+    // Make sure 'animation.json' is in the same folder as this HTML file
     lottie.loadAnimation({
       container: document.getElementById('lottie'),
       renderer: 'svg',
       loop: true,
       autoplay: true,
-      path: 'animation.json' // Make sure this file is in your root folder
+      path: 'cat typing.json'
     });
 
-    // Timer countdown logic
+    // Countdown Timer Logic
     const timerElement = document.getElementById("timer");
     const launchDate = new Date();
     launchDate.setDate(launchDate.getDate() + 30);
