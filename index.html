@@ -5,64 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Toletu - Coming Soon</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(to right, #4facfe, #00f2fe);
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
       height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #111;
       display: flex;
       justify-content: center;
       align-items: center;
+      color: white;
       text-align: center;
-      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .background-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.1;
+      z-index: 0;
+      width: 60%;
+      max-width: 600px;
+      height: auto;
+    }
+
+    .content {
+      z-index: 1;
     }
 
     h1 {
-      font-size: 3rem;
-      margin-bottom: 10px;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
     }
 
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
+    #timer {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #0f0;
     }
 
-    .timer {
-      font-size: 2rem;
-      background: rgba(255, 255, 255, 0.15);
-      padding: 15px 25px;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.8rem;
+      }
 
-    .timer span {
-      display: inline-block;
-      min-width: 80px;
+      #timer {
+        font-size: 1.3rem;
+      }
+
+      .background-logo {
+        width: 80%;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Toletu.com is Coming Soon!</h1>
-  <p>We are working hard to bring this service live in:</p>
-  <div class="timer" id="countdown">
-    <span id="days">--</span>d :
-    <span id="hours">--</span>h :
-    <span id="minutes">--</span>m :
-    <span id="seconds">--</span>s
+  <!-- Background GIF logo -->
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGhnNGNzYndqNm1sdGUxZGd4ZXZyd3Fpb2Jwa3Byd2NqbmgyMmk2dCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Ll22OhMLAlVDb8UQWe/giphy.gif" alt="Logo" class="background-logo" />
+
+  <div class="content">
+    <h1>Toletu.com will be live in 30 days!</h1>
+    <div id="timer">Loading...</div>
   </div>
 
   <script>
-    const countdown = () => {
-      const launchDate = new Date();
-      launchDate.setDate(launchDate.getDate() + 30); // 30 days from now
+    const target = new Date();
+    target.setDate(target.getDate() + 30);
 
+    const timer = document.getElementById("timer");
+
+    function updateTimer() {
       const now = new Date().getTime();
-      const distance = launchDate.getTime() - now;
+      const distance = target - now;
 
-      if (distance < 0) {
-        document.getElementById("countdown").innerHTML = "We're Live!";
+      if (distance <= 0) {
+        timer.innerText = "We are live!";
         return;
       }
 
@@ -71,14 +94,11 @@
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      document.getElementById("days").innerText = days;
-      document.getElementById("hours").innerText = hours;
-      document.getElementById("minutes").innerText = minutes;
-      document.getElementById("seconds").innerText = seconds;
-    };
+      timer.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
 
-    countdown(); // Initial call
-    setInterval(countdown, 1000); // Update every second
+    updateTimer(); // Initial call
+    setInterval(updateTimer, 1000); // Update every second
   </script>
 </body>
 </html>
