@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Toletu - Coming Soon</title>
 
-  <!-- Favicon (Logo on browser tab) -->
-  <link rel="icon" href="toletu.com_logo-removebg-preview.png" type="image/x-icon" />
+  <!-- Favicon -->
+  <link rel="icon" href="toletu.com_logo-removebg-preview.png" type="image/png" />
 
-  <!-- Meta for SEO -->
+  <!-- SEO Meta Tags -->
   <meta name="description" content="Toletu.com - A new platform to post and find rental ads in your local area. Launching soon!" />
   <meta name="keywords" content="rental, housing, ads, homes, PG, toletu, local rentals, room rentals" />
   <meta name="author" content="Toletu Team" />
@@ -17,6 +17,9 @@
   <meta property="og:image" content="toletu.com_logo-removebg-preview.png" />
   <meta property="og:url" content="https://www.toletu.com" />
   <meta name="robots" content="index, follow" />
+
+  <!-- Lottie Script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
 
   <style>
     * {
@@ -36,11 +39,13 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: white;
       text-align: center;
+      overflow: hidden;
     }
 
     #logo {
       width: 100px;
       margin-bottom: 20px;
+      z-index: 2;
     }
 
     #lottie {
@@ -84,14 +89,12 @@
   <!-- Logo -->
   <img id="logo" src="toletu.com_logo-removebg-preview.png" alt="Toletu Logo" />
 
-  <!-- Lottie animation -->
+  <!-- Lottie Animation Container -->
   <div id="lottie"></div>
 
   <!-- Countdown Timer -->
   <div id="timer">Loading timer...</div>
 
-  <!-- Lottie player -->
-  <script src="cat typing.json"></script>
   <script>
     // Load Lottie animation
     lottie.loadAnimation({
@@ -99,7 +102,7 @@
       renderer: 'svg',
       loop: true,
       autoplay: true,
-      path: 'animation.json'
+      path: 'animation.json' // Make sure this file is in your root folder
     });
 
     // Timer countdown logic
@@ -127,5 +130,6 @@
     updateTimer();
     setInterval(updateTimer, 1000);
   </script>
+
 </body>
 </html>
