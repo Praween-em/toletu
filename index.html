@@ -18,7 +18,7 @@
   <meta property="og:url" content="https://www.toletu.com" />
   <meta name="robots" content="index, follow" />
 
-  <!-- Lottie Animation Script -->
+  <!-- Lottie Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
 
   <style>
@@ -31,86 +31,89 @@
       padding: 0;
       height: 100vh;
       background: linear-gradient(135deg, #0d47a1, #ffffff);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #ffffff;
-      text-align: center;
+      align-items: center;
       overflow: hidden;
+      text-align: center;
     }
 
-
-
     #lottie {
-      width: auto;
-      height: auto;
-      position: absolute;
-      top: 15%;
+      width: 250px;
+      height: 250px;
+      margin-bottom: 20px;
       z-index: 1;
-      pointer-events: none;
+    }
+
+    h1 {
+      margin: 10px 20px;
+      font-size: 1.5rem;
+      max-width: 90%;
     }
 
     #timer {
-      font-size: 2rem;
-      margin-top: 280px;
-      z-index: 2;
+      font-size: 1.5rem;
       font-weight: 600;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 20px 30px;
+      margin-top: 30px;
+      padding: 15px 25px;
       border-radius: 15px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease-in-out;
+      z-index: 2;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.2rem;
+      }
+
       #timer {
-        font-size: 1.5rem;
-        margin-top: 260px;
-        padding: 16px 24px;
+        font-size: 1.2rem;
+        padding: 12px 20px;
       }
 
       #lottie {
-        width: auto;
-        height: auto;
-      }
-
-      #logo {
-        width: 80px;
+        width: 200px;
+        height: 200px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Lottie Animation -->
-  <div id="lottie"></div>
-  <h1 > Toletu.com - A new platform to post and find rental ads in your local area. Launching soon!," </h1>
-  <h1> rental, housing, ads, homes, PG, toletu, local rentals, room rentals"</h1>
 
-  <!-- Countdown Timer -->
+  <!-- Animation -->
+  <div id="lottie"></div>
+
+  <!-- Text -->
+  <h1>Toletu.com is launching soon!</h1>
+  <h1>Post and find rental ads in your local area — Homes, PGs, and more.</h1>
+
+  <!-- Timer -->
   <div id="timer">Loading timer...</div>
 
+  <!-- Scripts -->
   <script>
-    // Lottie animation loader
-    // Make sure 'animation.json' is in the same folder as this HTML file
+    // Lottie animation
     lottie.loadAnimation({
       container: document.getElementById('lottie'),
       renderer: 'svg',
       loop: true,
       autoplay: true,
-      path: 'cat typing.json'
+      path: 'cat typing.json' // Place this JSON in your project folder
     });
 
-    // Countdown Timer Logic
+    // Countdown Timer
     const timerElement = document.getElementById("timer");
     const launchDate = new Date();
     launchDate.setDate(launchDate.getDate() + 30);
 
-    const updateTimer = () => {
+    function updateTimer() {
       const now = new Date();
       const diff = launchDate - now;
 
@@ -125,11 +128,10 @@
       const seconds = Math.floor((diff / 1000) % 60);
 
       timerElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s remaining`;
-    };
+    }
 
     updateTimer();
     setInterval(updateTimer, 1000);
   </script>
-
 </body>
 </html>
